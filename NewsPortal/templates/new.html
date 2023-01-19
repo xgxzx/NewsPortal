@@ -5,9 +5,9 @@ New
 {% endblock title %}
 
 {% block content %}
-<h2>{{ new.post_title|scolding }}</h2>
+<h2>{{ new.post_title|censor }}</h2>
 <p>{{ new.norm_date }}</p>
 <blockquote>
-<p>{{ new.post_text|scolding }}</p>
+<p>{{ new.post_text|censor }}</p>
 </blockquote>
 {% endblock content %}
