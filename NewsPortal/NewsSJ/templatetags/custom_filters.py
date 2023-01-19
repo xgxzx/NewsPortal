@@ -12,7 +12,6 @@ def censor(value):
     for j in value_split:
         i += 1
         if j in words:
-            for_len_j = (len(j) - 1) * '*'
-            j = j.replace(j[1:], for_len_j)
+            j = j.replace(j, '***')
             value_split[i] = j
     return f'{" ".join(value_split)}'
