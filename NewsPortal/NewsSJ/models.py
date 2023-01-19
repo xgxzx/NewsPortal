@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import Sum
+from django.urls import reverse
 
 
 class Author(models.Model):
@@ -35,6 +36,9 @@ class Author(models.Model):
         print(self.rating)
         self.save()
 
+    def __str__(self):
+        return self.user.username
+
 
 class Category(models.Model):
     name = models.CharField('Category name', max_length=16, unique=True)
@@ -50,7 +54,7 @@ class Post(models.Model):
     )
     publication_type = models.CharField(max_length=2, choices=PUBLICATION_TYPE, default=ARTICLE)
 
-    post_title = models.CharField('Post name', max_length=222)
+    post_title = models.CharField('Post name', max_length=256)
     time_in = models.DateTimeField('Post date', auto_now_add=True)
     category = models.ManyToManyField("Category", through='PostCategory')
     post_text = models.TextField('Post text')
@@ -58,7 +62,7 @@ class Post(models.Model):
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
 
     def preview(self):
-        preview = self.post_text[:124] + '...'
+        preview = self.post_text[:20] + '...'
         return preview
 
     def like(self):
@@ -68,6 +72,15 @@ class Post(models.Model):
     def dislike(self):
         self.rating -= 1
         self.save()
+
+    def norm_date(self):
+        return self.time_in.strftime('%d.%m.%Y')
+
+    def __str__(self):
+        return f'{self.post_title} : {self.post_text[0:20]}...'
+
+    def get_absolute_url(self):
+        return reverse('post_detail', args=[str(self.id)])
 
 
 class PostCategory(models.Model):
@@ -89,3 +102,6 @@ class Comment(models.Model):
     def dislike(self):
         self.rating -= 1
         self.save()
+
+    def __str__(self):
+        return f'{self.comment_text}'
