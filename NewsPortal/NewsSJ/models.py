@@ -43,6 +43,9 @@ class Author(models.Model):
 class Category(models.Model):
     name = models.CharField('Category name', max_length=16, unique=True)
 
+    def __str__(self):
+        return self.name
+
 
 class Post(models.Model):
 
@@ -52,8 +55,8 @@ class Post(models.Model):
         (ARTICLE, 'Статья'),
         (NEWS, 'Новость'),
     )
-    publication_type = models.CharField(max_length=2, choices=PUBLICATION_TYPE, default=ARTICLE)
-
+    # publication_type = models.CharField(max_length=2, choices=PUBLICATION_TYPE, default=ARTICLE)
+    publication_type = models.CharField(max_length=2, choices=PUBLICATION_TYPE)
     post_title = models.CharField('Post name', max_length=256)
     time_in = models.DateTimeField('Post date', auto_now_add=True)
     category = models.ManyToManyField("Category", through='PostCategory')

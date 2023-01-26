@@ -1,11 +1,14 @@
 {% extends 'flatpages/default.html' %}
-
+{% load custom_filters %}
 {% block title %}
-News
+Поиск
 {% endblock title %}
 
 {% block content %}
-<h1>Все новости</h1>
+   <form action="" method="get">
+       {{ filterset.form.as_p }}
+       <input type="submit" value="Найти" />
+   </form>
 <hr>
    {% if news %}
        <table>
@@ -42,4 +45,5 @@ News
         ...
         <a href="?page={{ page_obj.paginator.num_pages }}">последняя &raquo;</a>
     {% endif %}
+
 {% endblock content %}
