@@ -3,7 +3,7 @@ from django.views.generic import ListView, DetailView, UpdateView, DeleteView, C
 from .models import Post
 from .filters import PostFilter
 from .forms import PostForm
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin
 
 
 class PostList(ListView):
@@ -48,7 +48,7 @@ class PostSearch(ListView):
         return context
 
 
-class NewCreate(LoginRequiredMixin, CreateView):
+class NewCreate(PermissionRequiredMixin, CreateView):
     raise_exception = True
     form_class = PostForm
     model = Post
@@ -60,7 +60,7 @@ class NewCreate(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class ArticlesCreate(LoginRequiredMixin, CreateView):
+class ArticlesCreate(PermissionRequiredMixin, CreateView):
     raise_exception = True
     form_class = PostForm
     model = Post
@@ -72,7 +72,7 @@ class ArticlesCreate(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class NewEdit(LoginRequiredMixin, UpdateView):
+class NewEdit(PermissionRequiredMixin, UpdateView):
     raise_exception = True
     form_class = PostForm
     model = Post
@@ -80,7 +80,7 @@ class NewEdit(LoginRequiredMixin, UpdateView):
     post_detail = 'news.html'
 
 
-class ArticlesEdit(LoginRequiredMixin, UpdateView):
+class ArticlesEdit(PermissionRequiredMixin, UpdateView):
     raise_exception = True
     form_class = PostForm
     model = Post
@@ -88,15 +88,14 @@ class ArticlesEdit(LoginRequiredMixin, UpdateView):
     post_detail = 'news.html'
 
 
-
-class NewDelete(LoginRequiredMixin, DeleteView):
+class NewDelete(PermissionRequiredMixin, DeleteView):
     raise_exception = True
     model = Post
     template_name = 'post_delete.html'
     success_url = reverse_lazy('posts')
 
 
-class ArticlesDelete(LoginRequiredMixin, DeleteView):
+class ArticlesDelete(PermissionRequiredMixin, DeleteView):
     raise_exception = True
     model = Post
     template_name = 'post_delete.html'
